@@ -10,6 +10,7 @@ public class EmployeeTest {
 		Attendance attendance = new Attendance();
 		Salary salary = new Salary();
 		int choice;
+
 		do {
 			System.out.println("\n==================================");
 			System.out.println("EMPLOYEE ATTENDANCE & PAYROLL SYSTEM");
@@ -18,16 +19,21 @@ public class EmployeeTest {
 			System.out.println("2. Calculate Attendance");
 			System.out.println("3. Calculate Salary");
 			System.out.println("4. Display Employee Details");
-			System.out.println("5. Exit");
+			System.out.println("5. Display Attendance Report");
+			System.out.println("6. Display Salary Report");
+			System.out.println("7. Exit");
 			System.out.println("Enter your choice:");
 			choice = sc.nextInt();
+
 			switch (choice) {
+
 			case 1:
 				System.out.println("\n--- ENTER EMPLOYEE DETAILS");
 				System.out.println("Enter Employee ID: ");
 				sc.nextLine();
 				System.out.println("Enter Employee Name: ");
 				employee.employeeName = sc.nextLine();
+
 				System.out.println("\nSelect Department:");
 				System.out.println("1. IT");
 				System.out.println("2. HR");
@@ -35,6 +41,7 @@ public class EmployeeTest {
 				System.out.println("4. Marketing");
 				System.out.println("Enter Department choice: ");
 				employee.departmentChoice = sc.nextInt();
+
 				switch (employee.departmentChoice) {
 				case 1:
 					employee.department = "IT";
@@ -48,31 +55,35 @@ public class EmployeeTest {
 				case 4:
 					employee.department = "Marketing";
 					break;
-					default:
-						employee.department = "Unknown";
-						System.out.println("Invalid department choice.");
+				default:
+					employee.department = "Unknown";
+					System.out.println("Invalid department choice.");
 				}
+
 				System.out.println("Enter Basic Salary: ");
 				employee.basicSalary = sc.nextDouble();
+
 				if (employee.basicSalary > 0) {
 					System.out.println("Employee details entered succesfully.");
 				} else {
 					System.out.println("Invalid salary. Salary must be greater than zero");
 				}
 				break;
-				// ============================================
-				// CASE 2 : CALCULATE ATTENDANCE
-				// ============================================
+
 			case 2:
 				System.out.println("\n---ATTENDANCE CALCULATION ---");
 				System.out.println("Enter Total Working Days: ");
 				attendance.totalWorkingDays = sc.nextInt();
+
 				if (attendance.totalWorkingDays > 0) {
 					attendance.presentDays = 0;
 					attendance.absentDays = 0;
+
 					for (int day = 1; day <= attendance.totalWorkingDays; day++) {
-						System.out.println("Day " + day + " - Enter 1 for Present, 0 for Absent: ");
+						System.out.println("Day " + day
+								+ " - Enter 1 for Present, 0 for Absent: ");
 						attendance.attendance = sc.nextInt();
+
 						if (attendance.attendance == 1) {
 							attendance.presentDays++;
 						} else if (attendance.attendance == 0) {
@@ -81,84 +92,145 @@ public class EmployeeTest {
 							System.out.println("Invalid input.Enter only 1 or 0.");
 						}
 					}
-					attendance.attendancePercentage = ((double) attendance.presentDays / attendance.totalWorkingDays) * 100;
+
+					attendance.attendancePercentage =
+							((double) attendance.presentDays
+							/ attendance.totalWorkingDays) * 100;
+
 					System.out.println("\nPresent Days : " + attendance.presentDays);
 					System.out.println("Absent Days : " + attendance.absentDays);
-					System.out.println("Attendance % : " + attendance.attendancePercentage + "%");
+					System.out.println("Attendance % : "
+							+ attendance.attendancePercentage + "%");
+
 					if (attendance.attendancePercentage >= 75) {
 						System.out.println("Attendance Status: Eligible");
 					} else {
 						System.out.println("Attendance Status: Not Eligible");
 					}
+
 				} else {
 					System.out.println("Working days must be greater than zero.");
 				}
 				break;
-				// =========================================================
-				// CASE 3 : CALCULATE SALARY
-				// =========================================================
+
 			case 3:
 				System.out.println("\n--- SALARY CALCULATION ---");
+
 				if (employee.basicSalary > 0) {
 					if (attendance.totalWorkingDays > 0) {
+
 						if (attendance.attendancePercentage >= 90) {
 							salary.incentive = employee.basicSalary * 0.10;
-							salary.finalSalary = employee.basicSalary + salary.incentive;
+							salary.finalSalary =
+									employee.basicSalary + salary.incentive;
+
 							System.out.println("Attendance Category: Excellent");
 							System.out.println("Attendance Incentive: 10%");
+
 						} else if (attendance.attendancePercentage >= 75) {
 							salary.incentive = 0;
 							salary.deduction = 0;
 							salary.finalSalary = employee.basicSalary;
+
 							System.out.println("Attendanc Category: Good");
 							System.out.println("Attendanc Incentive: 0%");
+
 						} else {
 							salary.deduction = employee.basicSalary * 0.10;
-							salary.finalSalary = employee.basicSalary - salary.deduction;
+							salary.finalSalary =
+									employee.basicSalary - salary.deduction;
+
 							System.out.println("Attendance Category: Low");
 							System.out.println("Attendance Deduction: 10%");
 						}
-						System.out.println("Basic Salary : Rs." + employee.basicSalary);
-						System.out.println("Final Salary : Rs." + salary.finalSalary);
+
+						System.out.println("Basic Salary : Rs."
+								+ employee.basicSalary);
+						System.out.println("Final Salary : Rs."
+								+ salary.finalSalary);
+
 					} else {
 						System.out.println("Please calculate attendance first.");
 					}
+
 				} else {
-					System.out.println("Please enter valid employee details first.");
+					System.out.println(
+							"Please enter valid employee details first.");
 				}
 				break;
-				// =============================================================
-				// CASE 4 : DISPLAY EMPLOYEE 
-				// DETAILS
-				// =============================================================
+
 			case 4:
 				System.out.println("\n--- EMPLOYEE DETAILS ---");
+
 				if (employee.employeeId != 0) {
-					System.out.println("Employee ID : " + employee.employeeId);
-					System.out.println("Employee Name : " + employee.employeeName);
-					System.out.println("Department : " + employee.department);
-					System.out.println("Basic Salary : Rs." + employee.basicSalary);
-					System.out.println("Present Days : " + attendance.presentDays);
-					System.out.println("Absent Days : " + attendance.absentDays);
-					System.out.println("Attendance % : " + attendance.attendancePercentage + "%");
-					System.out.println("Final Salary : Rs." + salary.finalSalary);
+					System.out.println("Employee ID : "
+							+ employee.employeeId);
+					System.out.println("Employee Name : "
+							+ employee.employeeName);
+					System.out.println("Department : "
+							+ employee.department);
+					System.out.println("Basic Salary : Rs."
+							+ employee.basicSalary);
+					System.out.println("Present Days : "
+							+ attendance.presentDays);
+					System.out.println("Absent Days : "
+							+ attendance.absentDays);
+					System.out.println("Attendance % : "
+							+ attendance.attendancePercentage + "%");
+					System.out.println("Final Salary : Rs."
+							+ salary.finalSalary);
+
 				} else {
 					System.out.println("No employee details available.");
 				}
-				
+
 				break;
-				// ================================
-				// CASE 4 : EXIT
-				// ================================
+
 			case 5:
-				System.out.println("/n Thank you for using the system.");
+				System.out.println("\n--- ATTENDANCE REPORT ---");
+
+				System.out.println("Total Working Days : "
+						+ attendance.totalWorkingDays);
+				System.out.println("Present Days : "
+						+ attendance.presentDays);
+				System.out.println("Absent Days : "
+						+ attendance.absentDays);
+				System.out.println("Attendance Percentage : "
+						+ attendance.attendancePercentage + "%");
+
+				if (attendance.attendancePercentage >= 75) {
+					System.out.println("Attendance Status : Eligible");
+				} else {
+					System.out.println("Attendance Status : Not Eligible");
+				}
+
 				break;
-				
-				default:
-					System.out.println("Invalid menu choice. please enter 1 to 5.");
+
+			case 6:
+				System.out.println("\n--- SALARY REPORT ---");
+
+				System.out.println("Basic Salary : Rs."
+						+ employee.basicSalary);
+				System.out.println("Incentive : Rs."
+						+ salary.incentive);
+				System.out.println("Deduction : Rs."
+						+ salary.deduction);
+				System.out.println("Final Salary : Rs."
+						+ salary.finalSalary);
+
+				break;
+
+			case 7:
+				System.out.println("\n Thank you for using the system.");
+				break;
+
+			default:
+				System.out.println(
+						"Invalid menu choice. please enter 1 to 7.");
 			}
-		}
-		while (choice != 5);
+
+		} while (choice != 7);
+
 		sc.close();
 	}
 }
